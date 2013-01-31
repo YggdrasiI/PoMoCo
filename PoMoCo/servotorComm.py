@@ -7,6 +7,7 @@ import threading
 debug = False
 startTime = time.clock()
 serialSends = []
+runningMovesCounter = 0
 
 BAUD_RATE = 9600
 
@@ -20,7 +21,19 @@ class runMovement(threading.Thread):
         self.start()
 
     def run(self):
+        global runningMovesCounter
+        runningMovesCounter += 1
+
         self.function(*self.args)
+
+        time.sleep(1)
+        runningMovesCounter -= 1
+
+        # Kill all servos if no move is pending.
+        if runningMovesCounter < 1 :
+          hexy.con.killAll()
+          time.sleep(0.5)
+          hexy.con.killAll()
 
 class serHandler(threading.Thread):
 
