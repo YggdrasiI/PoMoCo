@@ -9,6 +9,7 @@ sys.path.append('PoMoCo')
 import servotorComm
 from robot import hexapod
 import GUI
+from HexyServer import startHttpServer
 
 if __name__ == '__main__':
 
@@ -37,7 +38,15 @@ if __name__ == '__main__':
             __import__(moveName)
     __builtins__.move = move
 
-    GUI.startGUI(controller)
+    # Start http server
+    startHttpServer(8080)
+
+    try:
+      print 'started http server...'
+      GUI.startGUI(controller)
+    except KeyboardInterrupt:
+      print '^C received, close GUI'
+
     # the program only reaches here if the GUI has been closed
     del hexy
     del controller    
