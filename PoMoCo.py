@@ -28,6 +28,9 @@ if __name__ == '__main__':
             moves.append(s1)
             __builtins__.moves = moves
 
+    # Sort moves by names to fix order.
+    moves.sort()
+
     # global function for running move files
     def move(moveName):
         print "Preforming move:",moveName
